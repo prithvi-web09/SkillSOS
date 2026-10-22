@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import DisclaimerBanner from './components/DisclaimerBanner';
 import Dashboard from './pages/Dashboard';
@@ -27,7 +27,7 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="app-container">
         {/* Campus emergency disclaimer banner */}
         <DisclaimerBanner />
@@ -68,6 +68,6 @@ export default function App() {
           ))}
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

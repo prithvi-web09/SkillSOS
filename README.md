@@ -11,6 +11,20 @@
 
 ---
 
+### 🌐 How to View the Interactive Website
+
+> [!IMPORTANT]
+> This GitHub page is the **source code repository** and shows code and project documentation.  
+> To view and use the **actual interactive web application UI**:
+>
+> 1. **Run Locally in Browser (Recommended):**
+>    - Open **[http://localhost:5173](http://localhost:5173)** in your web browser (when services are running).
+>    - Or open **[http://localhost:8080](http://localhost:8080)** (Spring Boot embedded full-stack server).
+> 2. **Live GitHub Pages URL:**
+>    - **[https://prithvi-web09.github.io/SkillSOS/](https://prithvi-web09.github.io/SkillSOS/)** (Once enabled in repository Settings -> Pages -> GitHub Actions).
+
+---
+
 ## 1. Project Overview
 
 **SkillSOS** is a student-to-student campus assistance platform designed to solve daily academic and logistical micro-emergencies on college campuses:

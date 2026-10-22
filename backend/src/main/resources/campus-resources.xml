@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<campus-directory>
+    <resource>
+        <id>res-01</id>
+        <name>Advanced Computing &amp; Java Lab</name>
+        <category>LABORATORY</category>
+        <building>Engineering Block B</building>
+        <floor>Third Floor (Room 304)</floor>
+        <contact>cse-lab@campus.edu</contact>
+        <timings>08:30 AM - 05:30 PM</timings>
+        <description>Equipped with high-performance workstations, JDK 21, Linux/Windows environments, and network analysis tools.</description>
+    </resource>
+    <resource>
+        <id>res-02</id>
+        <name>Central Digital Library &amp; Study Commons</name>
+        <category>LIBRARY</category>
+        <building>Knowledge Hub</building>
+        <floor>Ground &amp; First Floor</floor>
+        <contact>library@campus.edu</contact>
+        <timings>08:00 AM - 09:00 PM</timings>
+        <description>Quiet study zones, computer terminals, access to IEEE/ACM digital repositories, reference textbooks, and journal archives.</description>
+    </resource>
+    <resource>
+        <id>res-03</id>
+        <name>Electronics &amp; Embedded Systems Lab</name>
+        <category>LABORATORY</category>
+        <building>Engineering Block A</building>
+        <floor>Second Floor (Room 212)</floor>
+        <contact>ece-lab@campus.edu</contact>
+        <timings>09:00 AM - 05:00 PM</timings>
+        <description>Oscilloscopes, microcontrollers, Arduino/Raspberry Pi boards, FPGA kits, and component testing stations.</description>
+    </resource>
+    <resource>
+        <id>res-04</id>
+        <name>Auditorium &amp; Seminar Hall</name>
+        <category>EVENT_SPACE</category>
+        <building>Administrative Complex</building>
+        <floor>First Floor</floor>
+        <contact>events@campus.edu</contact>
+        <timings>By Prior Booking</timings>
+        <description>Audio-visual projection, 350-seat capacity, stage acoustics for guest lectures, hackathons, and technical symposiums.</description>
+    </resource>
+    <resource>
+        <id>res-05</id>
+        <name>Student Wellness &amp; First Aid Cell</name>
+        <category>SUPPORT</category>
+        <building>Student Activity Center</building>
+        <floor>Ground Floor (Room 102)</floor>
+        <contact>wellness@campus.edu</contact>
+        <timings>24x7 On Campus Care</timings>
+        <description>Primary first aid, basic medical supplies, emergency resting room, and campus ambulance dispatch coordination.</description>
+    </resource>
+</campus-directory>

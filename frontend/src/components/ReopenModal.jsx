@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, RefreshCw, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function ReopenModal({ request, isOpen, onClose, onSuccess }) {
-  const [requesterEmail, setRequesterEmail] = useState('');
+  const { user } = useAuth();
+  const [requesterEmail, setRequesterEmail] = useState(user?.email || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isOpen && user?.email) {
+      setRequesterEmail(user.email);
+      setError('');
+    }
+  }, [isOpen, user]);
 
   if (!isOpen || !request) return null;
 

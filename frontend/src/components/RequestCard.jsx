@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, User, Clock, Users, ArrowRight, ShieldAlert } from 'lucide-react';
+import { MapPin, User, Clock, Users, ArrowRight, CheckCircle2, UserCheck } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const CATEGORY_NAMES = {
   ACADEMIC_HELP: 'Academic Help',
@@ -13,6 +14,11 @@ const CATEGORY_NAMES = {
 };
 
 export default function RequestCard({ request, onQuickVolunteer }) {
+  const { user } = useAuth();
+
+  const isOwner = user?.email && request?.requesterEmail &&
+    user.email.trim().toLowerCase() === request.requesterEmail.trim().toLowerCase();
+
   const getStatusBadge = (status) => {
     switch (status?.toUpperCase()) {
       case 'OPEN':
@@ -59,6 +65,19 @@ export default function RequestCard({ request, onQuickVolunteer }) {
         <span className="badge badge-category">
           {CATEGORY_NAMES[request.category] || request.category}
         </span>
+        {isOwner && (
+          <span style={{
+            fontSize: '0.72rem',
+            padding: '2px 8px',
+            borderRadius: 'var(--radius-full)',
+            background: 'rgba(59, 130, 246, 0.15)',
+            color: '#60a5fa',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            fontWeight: '600'
+          }}>
+            Your Request
+          </span>
+        )}
       </div>
 
       {/* Title */}
@@ -95,7 +114,9 @@ export default function RequestCard({ request, onQuickVolunteer }) {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
           <User size={14} color="var(--accent-primary)" />
-          <span>{request.requesterName}</span>
+          <span style={{ fontWeight: isOwner ? '700' : '500' }}>
+            {request.requesterName} {isOwner && '(You)'}
+          </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <MapPin size={14} />
@@ -121,7 +142,7 @@ export default function RequestCard({ request, onQuickVolunteer }) {
           Details
           <ArrowRight size={14} />
         </Link>
-        {request.status === 'OPEN' && onQuickVolunteer && (
+        {request.status === 'OPEN' && !isOwner && onQuickVolunteer && (
           <button
             onClick={() => onQuickVolunteer(request)}
             className="btn btn-primary"

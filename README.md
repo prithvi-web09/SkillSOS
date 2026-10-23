@@ -25,6 +25,26 @@
 
 ---
 
+### 🔑 Predefined Student Demonstration Accounts
+
+The application starts directly at the **Student Login** screen with zero account registration needed:
+
+| Username | Password | Student Name | Branch & Semester | Email |
+| :--- | :--- | :--- | :--- | :--- |
+| `rohan` | `123` | **Rohan Sharma** | Computer Engineering (Sem III) | `rohan@campus.edu` |
+| `priya` | `123` | **Priya Patel** | Electronics Engineering (Sem III) | `priya@campus.edu` |
+| `aryan` | `123` | **Aryan Deshmukh** | Information Technology (Sem V) | `aryan@campus.edu` |
+
+> [!TIP]
+> **Viva Demonstration Flow (Peer-to-Peer Help):**
+> 1. Sign in as **Rohan** (`rohan` / `123`) and click **"Post New Help Request"** to ask for a calculator or practical notes.
+> 2. Switch account to **Priya** (`priya` / `123`) using the 1-click switcher.
+> 3. Notice Priya's dashboard immediately features Rohan's request under **"Peer Requests From Classmates"**.
+> 4. Click **"I'll Help"** to volunteer.
+> 5. Switch back to **Rohan** &mdash; see the request marked **"In Progress"** with Priya registered as the helper, ready to be resolved!
+
+---
+
 ## 1. Project Overview
 
 **SkillSOS** is a student-to-student campus assistance platform designed to solve daily academic and logistical micro-emergencies on college campuses:

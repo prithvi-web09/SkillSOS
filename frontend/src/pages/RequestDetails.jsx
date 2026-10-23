@@ -15,6 +15,7 @@ import {
   Tag
 } from 'lucide-react';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import VolunteerModal from '../components/VolunteerModal';
 import ResolveModal from '../components/ResolveModal';
 import ReopenModal from '../components/ReopenModal';
@@ -32,6 +33,7 @@ const CATEGORY_NAMES = {
 export default function RequestDetails({ showToast }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [request, setRequest] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
@@ -245,38 +247,65 @@ export default function RequestDetails({ showToast }) {
 
         {/* Action Buttons conditioned on Request Lifecycle */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-          {isStatusOpen && (
-            <button
-              onClick={() => setVolunteerModalOpen(true)}
-              className="btn btn-primary"
-              style={{ padding: '12px 24px', fontSize: '0.95rem' }}
-            >
-              <HeartHandshake size={18} />
-              I'll Help (Volunteer)
-            </button>
-          )}
+          {(() => {
+            const isOwner = user?.email && request?.requesterEmail &&
+              user.email.trim().toLowerCase() === request.requesterEmail.trim().toLowerCase();
 
-          {isStatusAccepted && (
-            <button
-              onClick={() => setResolveModalOpen(true)}
-              className="btn btn-success"
-              style={{ padding: '12px 24px', fontSize: '0.95rem' }}
-            >
-              <CheckCircle size={18} />
-              Mark as Resolved
-            </button>
-          )}
+            if (isStatusOpen) {
+              if (isOwner) {
+                return (
+                  <div style={{
+                    padding: '8px 16px',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'rgba(59, 130, 246, 0.1)',
+                    border: '1px solid rgba(59, 130, 246, 0.25)',
+                    color: '#93c5fd',
+                    fontSize: '0.88rem'
+                  }}>
+                    You created this request. Awaiting peer helpers to volunteer.
+                  </div>
+                );
+              }
+              return (
+                <button
+                  onClick={() => setVolunteerModalOpen(true)}
+                  className="btn btn-primary"
+                  style={{ padding: '12px 24px', fontSize: '0.95rem' }}
+                >
+                  <HeartHandshake size={18} />
+                  I'll Help (Volunteer)
+                </button>
+              );
+            }
 
-          {isStatusResolved && (
-            <button
-              onClick={() => setReopenModalOpen(true)}
-              className="btn btn-secondary"
-              style={{ padding: '12px 20px', fontSize: '0.95rem' }}
-            >
-              <RefreshCw size={18} />
-              Reopen Request
-            </button>
-          )}
+            if (isStatusAccepted) {
+              return (
+                <button
+                  onClick={() => setResolveModalOpen(true)}
+                  className="btn btn-success"
+                  style={{ padding: '12px 24px', fontSize: '0.95rem' }}
+                >
+                  <CheckCircle size={18} />
+                  Mark as Resolved
+                </button>
+              );
+            }
+
+            if (isStatusResolved) {
+              return (
+                <button
+                  onClick={() => setReopenModalOpen(true)}
+                  className="btn btn-secondary"
+                  style={{ padding: '12px 20px', fontSize: '0.95rem' }}
+                >
+                  <RefreshCw size={18} />
+                  Reopen Request
+                </button>
+              );
+            }
+
+            return null;
+          })()}
         </div>
       </div>
 

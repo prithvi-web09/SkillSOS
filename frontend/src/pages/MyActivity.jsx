@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
-import { Search, Clock, PlusCircle, HeartHandshake, AlertCircle, ShieldAlert, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Clock, PlusCircle, HeartHandshake, AlertCircle, ShieldAlert, ArrowRight, UserCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import RequestCard from '../components/RequestCard';
 
 export default function MyActivity() {
-  const [email, setEmail] = useState('');
+  const { user } = useAuth();
+  const [email, setEmail] = useState(user?.email || '');
   const [searchedEmail, setSearchedEmail] = useState('');
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('created');
+
+  const fetchForEmail = async (targetEmail) => {
+    if (!targetEmail.trim()) return;
+    try {
+      setLoading(true);
+      setError('');
+      const data = await api.getActivity(targetEmail.trim());
+      setActivity(data);
+      setSearchedEmail(targetEmail.trim());
+    } catch (err) {
+      setError(err.message || 'Failed to retrieve activity for this email.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.email) {
+      setEmail(user.email);
+      fetchForEmail(user.email);
+    }
+  }, [user]);
 
   const handleLookup = async (e) => {
     e.preventDefault();
@@ -21,16 +45,7 @@ export default function MyActivity() {
       return;
     }
 
-    try {
-      setLoading(true);
-      const data = await api.getActivity(email.trim());
-      setActivity(data);
-      setSearchedEmail(email.trim());
-    } catch (err) {
-      setError(err.message || 'Failed to retrieve activity for this email.');
-    } finally {
-      setLoading(false);
-    }
+    fetchForEmail(email.trim());
   };
 
   return (

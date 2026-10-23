@@ -63,6 +63,56 @@ async function handleResponse(response) {
 }
 
 export const api = {
+  // Authentication
+  async login(username, password) {
+    if (!isGitHubPages) {
+      try {
+        const res = await fetch(`${BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        return await handleResponse(res);
+      } catch (err) {
+        if (!isGitHubPages && err.status === 401) {
+          throw err;
+        }
+      }
+    }
+
+    // Client-side fallback for GitHub Pages or offline mode
+    const norm = (username || '').trim().toLowerCase();
+    const cleanPass = (password || '').trim();
+    const mockUsers = [
+      { id: 'usr-rohan', username: 'rohan', name: 'Rohan Sharma', email: 'rohan@campus.edu', department: 'Computer Engineering (Sem III)', avatarInitial: 'R' },
+      { id: 'usr-priya', username: 'priya', name: 'Priya Patel', email: 'priya@campus.edu', department: 'Electronics Engineering (Sem III)', avatarInitial: 'P' },
+      { id: 'usr-aryan', username: 'aryan', name: 'Aryan Deshmukh', email: 'aryan@campus.edu', department: 'Information Technology (Sem V)', avatarInitial: 'A' }
+    ];
+    const found = mockUsers.find(u => u.username === norm);
+    if (found && cleanPass === '123') {
+      return found;
+    }
+    const err = new Error('Invalid credentials. Please enter a valid username and password (123).');
+    err.status = 401;
+    throw err;
+  },
+
+  async getUsers() {
+    if (!isGitHubPages) {
+      try {
+        const res = await fetch(`${BASE_URL}/auth/users`);
+        return await handleResponse(res);
+      } catch {
+        // Fall back below
+      }
+    }
+    return [
+      { id: 'usr-rohan', username: 'rohan', name: 'Rohan Sharma', email: 'rohan@campus.edu', department: 'Computer Engineering (Sem III)', avatarInitial: 'R' },
+      { id: 'usr-priya', username: 'priya', name: 'Priya Patel', email: 'priya@campus.edu', department: 'Electronics Engineering (Sem III)', avatarInitial: 'P' },
+      { id: 'usr-aryan', username: 'aryan', name: 'Aryan Deshmukh', email: 'aryan@campus.edu', department: 'Information Technology (Sem V)', avatarInitial: 'A' }
+    ];
+  },
+
   // Health & diagnostics
   async checkHealth() {
     if (isGitHubPages) {

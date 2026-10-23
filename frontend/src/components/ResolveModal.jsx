@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, CheckCircle, AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function ResolveModal({ request, isOpen, onClose, onSuccess }) {
-  const [resolverEmail, setResolverEmail] = useState('');
+  const { user } = useAuth();
+  const [resolverEmail, setResolverEmail] = useState(user?.email || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isOpen && user?.email) {
+      setResolverEmail(user.email);
+      setError('');
+    }
+  }, [isOpen, user]);
 
   if (!isOpen || !request) return null;
 

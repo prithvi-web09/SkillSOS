@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PlusCircle, AlertCircle, ArrowLeft, Send } from 'lucide-react';
+import { PlusCircle, AlertCircle, ArrowLeft, Send, UserCheck } from 'lucide-react';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const CATEGORIES = [
   { value: 'ACADEMIC_HELP', label: 'Academic Help (Concept explanations, lab queries)' },
@@ -15,17 +16,28 @@ const CATEGORIES = [
 
 export default function CreateRequest({ showToast }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [form, setForm] = useState({
     title: '',
     description: '',
     category: 'ACADEMIC_HELP',
     priority: 'NORMAL',
-    requesterName: '',
-    requesterEmail: '',
+    requesterName: user?.name || '',
+    requesterEmail: user?.email || '',
     campusLocation: '',
     deadline: ''
   });
+
+  useEffect(() => {
+    if (user) {
+      setForm(prev => ({
+        ...prev,
+        requesterName: user.name || prev.requesterName,
+        requesterEmail: user.email || prev.requesterEmail
+      }));
+    }
+  }, [user]);
 
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -138,6 +150,26 @@ export default function CreateRequest({ showToast }) {
           }}>
             <AlertCircle size={18} style={{ flexShrink: 0 }} />
             <span>{generalError}</span>
+          </div>
+        )}
+
+        {user && (
+          <div style={{
+            background: 'rgba(59, 130, 246, 0.08)',
+            border: '1px solid rgba(59, 130, 246, 0.25)',
+            borderRadius: 'var(--radius-md)',
+            padding: '12px 16px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '0.86rem',
+            color: '#93c5fd'
+          }}>
+            <UserCheck size={18} style={{ flexShrink: 0, color: 'var(--accent-primary)' }} />
+            <div>
+              Publishing as <strong>{user.name}</strong> ({user.email}) &bull; <span style={{ color: 'var(--text-muted)' }}>{user.department}</span>
+            </div>
           </div>
         )}
 
